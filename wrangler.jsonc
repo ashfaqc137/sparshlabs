@@ -1,0 +1,9 @@
+{
+  "name": "sparshlabs",
+  // Static assets only, no Worker script. This Worker owns everything on sparshlabs.com that the
+  // more specific project routes (sparshlabs.com/sparsh*, sparshlabs.com/ownci*) don't claim.
+  "compatibility_date": "2026-10-08",
+  "assets": { "directory": "./dist", "not_found_handling": "404-page" },
+  "routes": [{ "pattern": "sparshlabs.com/*", "zone_name": "sparshlabs.com" }],
+  "workers_dev": false
+}

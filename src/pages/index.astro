@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { projects } from '../data/projects'
+
+const principles = [
+  {
+    title: 'One real problem each',
+    body: 'Every project starts from an annoyance people actually hit, and stays small enough to explain in a sentence.',
+  },
+  {
+    title: 'Honest about limits',
+    body: 'Docs say what is tested, what is not, and what a tool does not protect you from. No surprises after you adopt it.',
+  },
+  {
+    title: 'Yours to run',
+    body: 'MIT licensed, no accounts, no hosted lock-in. Read the source, run it on your own machines, fork it if you need to.',
+  },
+]
+---
+
+<BaseLayout title="sparshlabs — open-source tech that's actually usable">
+  <main id="main" class="content-page lab-page">
+    <section class="hero">
+      <p class="eyebrow"><span class="eyebrow-dot"></span> An open-source lab</p>
+      <h1>Open-source tech<br /><span>that’s actually usable.</span></h1>
+      <p class="lead">
+        sparshlabs builds small, focused tools that solve one real problem well: documented
+        honestly, free to use, and yours to run.
+      </p>
+      <div class="hero-actions">
+        <a class="button-primary" href="#projects">Explore the projects <span aria-hidden="true">↓</span></a>
+        <a class="button-secondary" href="#about">How it started</a>
+      </div>
+    </section>
+
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="section-heading">
+        <p class="section-kicker">The projects</p>
+        <h2 id="projects-title">Pick one and try it today.</h2>
+      </div>
+      <div class="project-grid">
+        {projects.map((project) => (
+          <article class="project-card">
+            <div class="project-top">
+              <span class={`project-mark mark-${project.slug}`} aria-hidden="true">{project.slug === 'sparsh' ? 's' : <i></i>}</span>
+              <div>
+                <h3>{project.name}</h3>
+                <p class="project-tagline">{project.tagline}</p>
+              </div>
+              <span class="project-status">{project.status}</span>
+            </div>
+            <p class="project-pitch">{project.pitch}</p>
+            <ul class="project-points">
+              {project.points.map((point) => <li>{point}</li>)}
+            </ul>
+            <div class="project-links">
+              <a class="button-primary" href={project.site}>Visit {project.name} <span aria-hidden="true">→</span></a>
+              <a class="button-secondary" href={project.repo} rel="noreferrer">Source on GitHub</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="split-section" id="about" aria-labelledby="about-title">
+      <div class="section-heading">
+        <p class="section-kicker">About the lab</p>
+        <h2 id="about-title">It started with a tap.</h2>
+      </div>
+      <div class="prose">
+        <p>
+          The first project was <em>sparsh</em>, Sanskrit for “touch”: a small library that stops a
+          tap from landing on the wrong thing when an interface moves under someone’s finger.
+        </p>
+        <p>
+          Building it made the bar clear. The tools worth making fix a real annoyance, explain
+          themselves plainly, and are pleasant to adopt. That bar outgrew a single project, so sparsh
+          became <em>sparshlabs</em>: a home for each tool that follows. OwnCI, a self-hosted
+          GitHub Actions runner, is the second.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="principles-title">
+      <div class="section-heading">
+        <p class="section-kicker">How we build</p>
+        <h2 id="principles-title">Small, honest, and yours.</h2>
+      </div>
+      <div class="card-grid">
+        {principles.map((principle, index) => (
+          <article class="card">
+            <span class="card-number">0{index + 1}</span>
+            <h3>{principle.title}</h3>
+            <p>{principle.body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

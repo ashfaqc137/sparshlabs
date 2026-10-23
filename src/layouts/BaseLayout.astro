@@ -1,0 +1,59 @@
+---
+import '@fontsource/dm-sans/400.css'
+import '@fontsource/dm-sans/700.css'
+import '@fontsource/manrope/600.css'
+import '@fontsource/manrope/700.css'
+import '@fontsource/dm-mono/400.css'
+import '../../theme/sparshlabs.css'
+import '../styles/site.css'
+import { projects } from '../data/projects'
+
+interface Props {
+  title: string
+  description?: string
+}
+
+const {
+  title,
+  description = 'sparshlabs builds small, focused open-source tools that solve one real problem well.',
+} = Astro.props
+
+const github = 'https://github.com/ashfaqc137'
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#11120f" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="brand">
+        <a class="brand-home" href="/" aria-label="sparshlabs home">
+          <span class="brand-mark lab-mark" aria-hidden="true"><i></i></span>
+          <span>sparshlabs</span>
+        </a>
+      </div>
+      <nav class="site-nav" aria-label="Main navigation">
+        {projects.map((project) => <a href={project.site}>{project.name}</a>)}
+        <a href={github} rel="noreferrer">
+          <svg class="filled" aria-hidden="true" viewBox="0 0 16 16"><path d="M8 .8a7.2 7.2 0 0 0-2.28 14.03c.36.07.49-.16.49-.35v-1.25c-2 .44-2.42-.85-2.42-.85-.33-.83-.8-1.05-.8-1.05-.65-.45.05-.44.05-.44.72.05 1.1.74 1.1.74.64 1.1 1.68.78 2.09.6.06-.47.25-.78.45-.96-1.6-.18-3.28-.8-3.28-3.57 0-.79.28-1.43.74-1.93-.08-.18-.32-.91.07-1.9 0 0 .6-.19 1.98.74a6.9 6.9 0 0 1 3.6 0c1.38-.93 1.98-.74 1.98-.74.39.99.15 1.72.07 1.9.46.5.74 1.14.74 1.93 0 2.78-1.68 3.39-3.29 3.57.26.22.48.66.48 1.33v1.88c0 .19.13.42.5.35A7.2 7.2 0 0 0 8 .8Z" /></svg>
+          GitHub
+        </a>
+      </nav>
+    </header>
+    <slot />
+    <footer class="site-footer">
+      <a href="/" class="footer-brand">sparshlabs <span>·</span> usable open-source tech</a>
+      <span>Everything here is MIT licensed</span>
+      <a href={github} rel="noreferrer">Source on GitHub</a>
+    </footer>
+  </body>
+</html>

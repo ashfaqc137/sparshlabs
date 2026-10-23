@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { projects } from '../data/projects'
+---
+
+<BaseLayout title="Page not found · sparshlabs">
+  <main id="main" class="content-page not-found">
+    <p class="eyebrow"><span class="eyebrow-dot"></span> 404</p>
+    <section class="page-hero hero">
+      <h1>Nothing lives here.</h1>
+      <p class="lead">The page you asked for doesn’t exist. Try the lab home or one of the projects.</p>
+      <div class="hero-actions">
+        <a class="button-primary" href="/">sparshlabs home</a>
+        {projects.map((project) => <a class="button-secondary" href={project.site}>{project.name}</a>)}
+      </div>
+    </section>
+  </main>
+</BaseLayout>
