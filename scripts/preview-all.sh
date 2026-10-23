@@ -5,20 +5,21 @@
 #   sh scripts/preview-all.sh            build everything, then serve
 #   sh scripts/preview-all.sh --no-build serve the existing dist/ folders
 #
+# The projects are the submodules in projects/ (run npm run setup first).
+#
 # In production these are three Workers on separate routes; here one Worker serves the merged
 # tree, which behaves the same for paths, trailing slashes and 404 pages.
 set -eu
 
 here=$(cd "$(dirname "$0")/.." && pwd)
-work=${SPARSHLABS_WORK:-$(dirname "$here")}
-ownci="$work/ownci/website"
-sparsh="$work/sparsh/apps/website"
+ownci="$here/projects/ownci/website"
+sparsh="$here/projects/sparsh/apps/website"
 out=${SPARSHLABS_PREVIEW_DIR:-"${TMPDIR:-/tmp}/sparshlabs-preview"}
 
 if [ "${1:-}" != "--no-build" ]; then
   (cd "$here" && npm run build)
   (cd "$ownci" && npm run build)
-  (cd "$work/sparsh" && pnpm run build:website)
+  (cd "$here/projects/sparsh" && pnpm run build:website)
 fi
 
 rm -rf "$out"

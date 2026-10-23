@@ -1,0 +1,8 @@
+[submodule "projects/ownci"]
+	path = projects/ownci
+	url = https://github.com/ashfaqc137/ownci.git
+	branch = main
+[submodule "projects/sparsh"]
+	path = projects/sparsh
+	url = https://github.com/ashfaqc137/sparsh.git
+	branch = master

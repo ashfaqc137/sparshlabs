@@ -1,26 +1,27 @@
 #!/bin/sh
-# Copy theme/sparshlabs.css into every project site that uses it.
+# Copy theme/sparshlabs.css into every project site that uses it (the submodules in projects/).
 #
 #   sh scripts/sync-theme.sh          copy the theme into each project
 #   sh scripts/sync-theme.sh --check  exit 1 if any project's copy differs (for CI or pre-commit)
 #
-# Projects are expected next to this repo (../sparsh, ../ownci). Set SPARSHLABS_WORK to the
-# directory that holds them if they live elsewhere.
+# Each project builds on its own (Cloudflare builds the project repo alone), so it carries a copy
+# of the theme rather than importing this file. After syncing, commit the copy inside each
+# submodule, then commit the new submodule pointers here.
 set -eu
 
 here=$(cd "$(dirname "$0")/.." && pwd)
-work=${SPARSHLABS_WORK:-$(dirname "$here")}
 src="$here/theme/sparshlabs.css"
 check=false
 [ "${1:-}" = "--check" ] && check=true
 
 status=0
 for dest in \
-  "$work/sparsh/apps/website/src/styles/sparshlabs.css" \
-  "$work/ownci/website/src/styles/sparshlabs.css"
+  "$here/projects/sparsh/apps/website/src/styles/sparshlabs.css" \
+  "$here/projects/ownci/website/src/styles/sparshlabs.css"
 do
   if [ ! -d "$(dirname "$dest")" ]; then
-    echo "skip   $dest (project not found)"
+    echo "skip   $dest (submodule not checked out: run npm run setup)"
+    status=1
     continue
   fi
   if $check; then

@@ -13,6 +13,7 @@
     "build": "astro check && astro build && cp _headers dist/",
     "preview": "astro preview",
     "typecheck": "astro check",
+    "setup": "sh scripts/setup.sh",
     "sync-theme": "sh scripts/sync-theme.sh",
     "preview-all": "sh scripts/preview-all.sh"
   },
