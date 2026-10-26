@@ -51,7 +51,7 @@ export const projects: Project[] = [
       'One install script for Linux and WSL2, amd64 and arm64',
     ],
     status: 'v0.1.0 · MVP',
-    install: 'curl -fsSL https://github.com/ashfaqc137/ownci/releases/latest/download/install.sh | sh',
+    install: 'curl -fsSL https://sparshlabs.com/ownci/install.sh | sh',
     limits: { label: 'What it doesn’t protect against', href: '/ownci/security/' },
     license: 'MIT',
     site: '/ownci/',
