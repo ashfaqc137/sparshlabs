@@ -1,0 +1,112 @@
+---
+// Served at author.sparshlabs.com through a Cloudflare URL Rewrite Rule ("/" → "/author/"), so
+// every link on this page that points back at the lab must be absolute. See README.md.
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { projects } from '../data/projects'
+
+const github = 'https://github.com/ashfaqc137'
+const linkedin = 'https://www.linkedin.com/in/ashfaqc137/'
+const email = 'ashfaqc137@gmail.com'
+
+const habits = [
+  {
+    title: 'Limits written down',
+    body: 'Each project says what it doesn’t do: sparsh keeps a limitations file, and OwnCI’s security page spells out what a job container does and doesn’t protect.',
+  },
+  {
+    title: 'Tested where it runs',
+    body: 'sparsh is tested in real browsers with Playwright. OwnCI’s acceptance test is a real pull request check, run on a real machine, inside a job container.',
+  },
+  {
+    title: 'Small on purpose',
+    body: 'One problem per tool, explainable in a sentence. TypeScript for sparsh, Go and Docker for OwnCI.',
+  },
+]
+---
+
+<BaseLayout
+  title="Ashfaq Rahman · sparshlabs"
+  description="Ashfaq Rahman is a full-stack engineer who builds sparshlabs: small open-source tools that each fix one real annoyance."
+  canonical="https://author.sparshlabs.com/"
+  absoluteLinks
+>
+  <main id="main" class="content-page lab-page">
+    <section class="hero">
+      <p class="eyebrow"><span class="eyebrow-dot"></span> The author</p>
+      <h1>Hi, I’m Ashfaq.<br /><span>I build sparshlabs.</span></h1>
+      <p class="lead">
+        Small open-source tools that each fix one real annoyance, documented honestly and free to
+        run yourself.
+      </p>
+      <div class="hero-actions">
+        <a class="button-primary" href={github} rel="noreferrer">GitHub <span aria-hidden="true">→</span></a>
+        <a class="button-secondary" href={linkedin} rel="noreferrer">LinkedIn</a>
+        <a class="button-secondary" href="https://sparshlabs.com/">The lab</a>
+      </div>
+    </section>
+
+    <section class="split-section" aria-labelledby="background-title">
+      <div class="section-heading">
+        <p class="section-kicker">Background</p>
+        <h2 id="background-title">A bit about me.</h2>
+      </div>
+      <div class="prose">
+        <p>
+          By day I’m a full-stack engineer in the R&amp;D department at Sapiens. I’ve been building
+          software for the web since 2018, on both ends: the backend that does the work and the
+          frontend people actually touch.
+        </p>
+        <p>
+          Working across the whole stack means running into the small annoyances that live between
+          the layers: a button that moves just as you tap it, a CI queue you’re waiting on when your
+          own machine sits idle. Those are the ones I can’t leave alone.
+        </p>
+        <p>
+          sparshlabs is where I build the tools I wish already existed. It started
+          with <em>sparsh</em>, for taps that land on the wrong thing; <em>OwnCI</em> came next.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="build-title">
+      <div class="section-heading">
+        <p class="section-kicker">What I build</p>
+        <h2 id="build-title">Two projects, both early.</h2>
+      </div>
+      <div class="card-grid two">
+        {projects.map((project) => (
+          <article class="card">
+            <span class="card-number">{project.status}</span>
+            <h3>{project.name} · {project.tagline}</h3>
+            <p>{project.pitch}</p>
+            <p class="author-project-link">
+              <a class="inline" href={new URL(project.site, Astro.site).href}>Visit {project.name} <span aria-hidden="true">→</span></a>
+            </p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="work-title">
+      <div class="section-heading">
+        <p class="section-kicker">How I work</p>
+        <h2 id="work-title">The habits behind every project.</h2>
+      </div>
+      <div class="card-grid">
+        {habits.map((habit, index) => (
+          <article class="card">
+            <span class="card-number">0{index + 1}</span>
+            <h3>{habit.title}</h3>
+            <p>{habit.body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="cta-band">
+      <span class="cta-spark" aria-hidden="true">◉</span>
+      <div><p class="section-kicker">Get in touch</p><h2>Say hello.</h2><p>Found a bug or have an idea? Open an issue on GitHub. For anything else, find me on <a class="inline" href={linkedin} rel="noreferrer">LinkedIn</a> or write to <a class="inline" href={`mailto:${email}`}>{email}</a>.</p></div>
+      <a class="button-primary" href={github} rel="noreferrer">GitHub <span aria-hidden="true">→</span></a>
+    </section>
+  </main>
+</BaseLayout>

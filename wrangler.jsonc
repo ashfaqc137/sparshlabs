@@ -1,9 +1,13 @@
 {
   "name": "sparshlabs",
   // Static assets only, no Worker script. This Worker owns everything on sparshlabs.com that the
-  // more specific project routes (sparshlabs.com/sparsh*, sparshlabs.com/ownci*) don't claim.
+  // more specific project routes (sparshlabs.com/sparsh*, sparshlabs.com/ownci*) don't claim,
+  // plus author.sparshlabs.com, whose "/" a Cloudflare URL Rewrite Rule maps to /author/.
   "compatibility_date": "2026-10-08",
   "assets": { "directory": "./dist", "not_found_handling": "404-page" },
-  "routes": [{ "pattern": "sparshlabs.com/*", "zone_name": "sparshlabs.com" }],
+  "routes": [
+    { "pattern": "sparshlabs.com/*", "zone_name": "sparshlabs.com" },
+    { "pattern": "author.sparshlabs.com/*", "zone_name": "sparshlabs.com" }
+  ],
   "workers_dev": false
 }

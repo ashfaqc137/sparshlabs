@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { projects } from '../data/projects'
 
+const github = 'https://github.com/ashfaqc137'
+
 const principles = [
   {
     title: 'One real problem each',
@@ -12,31 +14,31 @@ const principles = [
     body: 'Docs say what is tested, what is not, and what a tool does not protect you from. No surprises after you adopt it.',
   },
   {
-    title: 'Yours to run',
-    body: 'MIT licensed, no accounts, no hosted lock-in. Read the source, run it on your own machines, fork it if you need to.',
+    title: 'Yours to keep',
+    body: 'MIT licensed, no accounts, no lock-in. Read the source, run it where you like, fork it if you need to.',
   },
 ]
 ---
 
-<BaseLayout title="sparshlabs — open-source tech that's actually usable">
+<BaseLayout title="sparshlabs — small open-source tools that fix one real annoyance">
   <main id="main" class="content-page lab-page">
     <section class="hero">
       <p class="eyebrow"><span class="eyebrow-dot"></span> An open-source lab</p>
-      <h1>Open-source tech<br /><span>that’s actually usable.</span></h1>
+      <h1>Small open-source tools<br /><span>that fix one real annoyance.</span></h1>
       <p class="lead">
-        sparshlabs builds small, focused tools that solve one real problem well: documented
-        honestly, free to use, and yours to run.
+        sparshlabs is a one-person lab. Each tool solves one problem well, says plainly what it
+        doesn’t do, and is free to run yourself.
       </p>
       <div class="hero-actions">
         <a class="button-primary" href="#projects">Explore the projects <span aria-hidden="true">↓</span></a>
-        <a class="button-secondary" href="#about">How it started</a>
+        <a class="button-secondary" href="#about">The story</a>
       </div>
     </section>
 
     <section class="section" id="projects" aria-labelledby="projects-title">
       <div class="section-heading">
         <p class="section-kicker">The projects</p>
-        <h2 id="projects-title">Pick one and try it today.</h2>
+        <h2 id="projects-title">Both are early. Both work today.</h2>
       </div>
       <div class="project-grid">
         {projects.map((project) => (
@@ -53,6 +55,13 @@ const principles = [
             <ul class="project-points">
               {project.points.map((point) => <li>{point}</li>)}
             </ul>
+            <p class="project-limits">
+              <a class="inline" href={project.limits.href} rel="noreferrer">{project.limits.label} <span aria-hidden="true">→</span></a>
+            </p>
+            <figure class="code-block project-install">
+              <figcaption>Install</figcaption>
+              <pre><code>{project.install}</code></pre>
+            </figure>
             <div class="project-links">
               <a class="button-primary" href={project.site}>Visit {project.name} <span aria-hidden="true">→</span></a>
               <a class="button-secondary" href={project.repo} rel="noreferrer">Source on GitHub</a>
@@ -69,21 +78,24 @@ const principles = [
       </div>
       <div class="prose">
         <p>
-          The first project was <em>sparsh</em>, Sanskrit for “touch”: a small library that stops a
-          tap from landing on the wrong thing when an interface moves under someone’s finger.
+          sparshlabs is one developer building tools in the open. It started with <em>sparsh</em>,
+          Sanskrit for “touch”: a small library I wrote to stop a tap from landing on the wrong thing
+          when an interface moves under someone’s finger.
         </p>
         <p>
-          Building it made the bar clear. The tools worth making fix a real annoyance, explain
-          themselves plainly, and are pleasant to adopt. That bar outgrew a single project, so sparsh
-          became <em>sparshlabs</em>: a home for each tool that follows. OwnCI, a self-hosted
-          GitHub Actions runner, is the second.
+          Building it set the bar I now hold every project to: fix a real annoyance, explain it
+          plainly, and be pleasant to adopt. That bar outgrew one library, so sparsh
+          became <em>sparshlabs</em>: a home for each tool that follows. OwnCI, a self-hosted GitHub
+          Actions runner, is the second.
         </p>
+        <p>They’re for developers who would rather understand a tool than just trust it.</p>
+        <p><a class="inline" href="https://author.sparshlabs.com/">More about me <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
 
     <section class="section" aria-labelledby="principles-title">
       <div class="section-heading">
-        <p class="section-kicker">How we build</p>
+        <p class="section-kicker">How I build</p>
         <h2 id="principles-title">Small, honest, and yours.</h2>
       </div>
       <div class="card-grid">
@@ -95,6 +107,12 @@ const principles = [
           </article>
         ))}
       </div>
+    </section>
+
+    <section class="cta-band">
+      <span class="cta-spark" aria-hidden="true">◉</span>
+      <div><p class="section-kicker">Get involved</p><h2>Found a rough edge?</h2><p>Issues, ideas and pull requests are welcome on either repo.</p></div>
+      <a class="button-primary" href={github} rel="noreferrer">sparshlabs on GitHub <span aria-hidden="true">→</span></a>
     </section>
   </main>
 </BaseLayout>

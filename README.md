@@ -9,6 +9,7 @@ its own site, mounted under a path on sparshlabs.com. The projects are git submo
 | URL | Served by | Source |
 | --- | --- | --- |
 | `sparshlabs.com/` | Worker `sparshlabs` | this repo |
+| `author.sparshlabs.com/` | Worker `sparshlabs` (rewritten to `/author/`) | this repo, `src/pages/author.astro` |
 | `sparshlabs.com/sparsh/` | Worker `sparsh` | `projects/sparsh` → [ashfaqc137/sparsh](https://github.com/ashfaqc137/sparsh) `apps/website` |
 | `sparshlabs.com/ownci/` | Worker `ownci` | `projects/ownci` → [ashfaqc137/ownci](https://github.com/ashfaqc137/ownci) `website` |
 
@@ -30,7 +31,8 @@ Node ≥ 22 (see `.nvmrc`). Dependencies are pinned to exact versions.
 | `projects/ownci`, `projects/sparsh` | The project repositories, as submodules |
 | `theme/sparshlabs.css` | **The shared theme**: tokens, header, nav, footer, heroes, sections, cards, docs layout, code, tables |
 | `src/data/projects.ts` | The project cards on the home page; one entry per project |
-| `src/pages/index.astro` | Home: hero, project cards, about the lab, how we build |
+| `src/pages/index.astro` | Home: hero, project cards, about the lab, how I build |
+| `src/pages/author.astro` | The author bio, served at author.sparshlabs.com |
 | `src/layouts/BaseLayout.astro` | Header, footer, font imports |
 | `src/styles/site.css` | Home-page-only styles (project cards, marks) |
 | `_headers` | Security headers (strict CSP, no scripts), copied into `dist/` by `npm run build` |
@@ -109,6 +111,18 @@ One-time setup for the domain (zone `sparshlabs.com` on Cloudflare):
 3. Deploy this Worker first, then merge the sparsh and ownci branches that add their routes.
    `wrangler deploy` creates the routes from `wrangler.jsonc`; the API token used by Workers
    Builds needs *Workers Routes: Edit* on the zone.
+4. **author.sparshlabs.com**: the bio is `dist/author/index.html` from this repo, served by the
+   same Worker (route `author.sparshlabs.com/*` in `wrangler.jsonc`). Three dashboard settings:
+   - DNS: `AAAA author 100::` (proxied).
+   - **Rules → URL Rewrite Rule**: when `http.host eq "author.sparshlabs.com" and
+     http.request.uri.path eq "/"`, rewrite the path (static) to `/author/`. Only `/` is
+     rewritten, so `/_astro/*` and `/favicon.svg` load as they do on the apex.
+   - **Rules → Redirect Rule**: when `http.host eq "sparshlabs.com" and
+     starts_with(http.request.uri.path, "/author")`, 301 to `https://author.sparshlabs.com/`,
+     so the bio has one public address.
+
+   Because the page is served from another host, every link on it back to the lab is absolute:
+   `BaseLayout` takes `absoluteLinks` (header and footer) and `canonical`.
 
 Project sites build into `dist/<slug>/` with Astro `base: '/<slug>'`, because Workers static
 assets don't strip the path prefix. Each project's `_headers` uses `/<slug>/…` patterns.

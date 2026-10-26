@@ -8,6 +8,10 @@ export interface Project {
   pitch: string
   points: string[]
   status: string
+  /** One copy-pasteable command, shown on the card. */
+  install: string
+  /** Where the project says what it does not do. */
+  limits: { label: string; href: string }
   license: string
   site: string
   repo: string
@@ -26,6 +30,11 @@ export const projects: Project[] = [
       'Enforce or report mode, with a reason for every block',
     ],
     status: 'v0.1 · npm',
+    install: 'npm install @sparshlabs/react',
+    limits: {
+      label: 'Known limitations',
+      href: 'https://github.com/ashfaqc137/sparsh/blob/master/LIMITATIONS.md',
+    },
     license: 'MIT',
     site: '/sparsh/',
     repo: 'https://github.com/ashfaqc137/sparsh',
@@ -42,6 +51,8 @@ export const projects: Project[] = [
       'One install script for Linux and WSL2, amd64 and arm64',
     ],
     status: 'v0.1.0 · MVP',
+    install: 'curl -fsSL https://github.com/ashfaqc137/ownci/releases/latest/download/install.sh | sh',
+    limits: { label: 'What it doesn’t protect against', href: '/ownci/security/' },
     license: 'MIT',
     site: '/ownci/',
     repo: 'https://github.com/ashfaqc137/ownci',

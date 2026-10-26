@@ -19,6 +19,9 @@
 .project-points { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 9px; }
 .project-points li { position: relative; padding-left: 24px; color: var(--text-body); font-size: 14px; line-height: 1.6; }
 .project-points li::before { position: absolute; top: 0.5em; left: 3px; width: 10px; height: 5px; border-bottom: 2px solid var(--accent); border-left: 2px solid var(--accent); content: ''; transform: rotate(-45deg); }
+.project-limits { margin: 16px 0 0; font-size: 14px; }
+.project-install { margin: 18px 0 0; }
+.card p.author-project-link { margin-top: 14px; }
 .project-links { margin-top: auto; padding-top: 24px; display: flex; flex-wrap: wrap; gap: 10px; }
 
 @media (max-width: 720px) {
