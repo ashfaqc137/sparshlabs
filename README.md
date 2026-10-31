@@ -63,8 +63,8 @@ every colour, and builds its header the same way:
 - **Type** Manrope (display), DM Sans (body), DM Mono (labels, code), self-hosted via
   `@fontsource` (dm-sans 400/700, manrope 600/700, dm-mono 400) in every site.
 
-Each project has a copy at `src/styles/sparshlabs.css`, because Cloudflare builds each project
-repository on its own and can't reach this file. Don't edit a copy directly; the next sync
+Each project has a copy at `src/styles/sparshlabs.css`, because each project repository
+builds on its own and can't reach this file. Don't edit a copy directly; the next sync
 overwrites it. `sh scripts/sync-theme.sh --check` exits 1 if any copy is stale.
 
 ## Changing the design of every site
@@ -74,11 +74,14 @@ All of it happens in this repo:
 1. Edit `theme/sparshlabs.css` (shared look), or a project's own styles and pages in
    `projects/<name>/…` (sparsh: `apps/website/src/styles.css`, ownci: `website/src/styles/global.css`).
 2. `npm run sync-theme`, then `npm run preview-all` to check all three sites together.
-3. Commit inside each submodule you changed, on a branch, and push it:
+3. Commit inside each submodule you changed, on a branch, push it and open a PR:
    `git -C projects/ownci switch -c website/<change> && git -C projects/ownci commit -am "…" && git -C projects/ownci push -u origin HEAD`.
-4. Commit here: the theme plus the new submodule pointers (`git add theme projects && git commit`).
-5. Merge the project branches. Each project's Cloudflare build deploys its site; merging here
-   deploys the home page.
+4. Merge the project PRs. They are squash-merged, so afterwards move each submodule to the merged
+   commit (`git submodule update --remote`) rather than the branch commit.
+5. Commit here, on a branch, and merge: the theme plus the new submodule pointers
+   (`git add theme projects && git commit`).
+6. Deploy every site that changed with wrangler (see [Deployment](#deployment-cloudflare)).
+   Merging doesn't deploy anything.
 
 The submodules track `main` (ownci) and `master` (sparsh). `git submodule update --remote`
 moves them to the latest commit on those branches; commit the updated pointers afterwards.
@@ -88,30 +91,32 @@ committing.
 
 ## Deployment (Cloudflare)
 
-The three sites are separate Workers serving static assets, each connected to its repository
-with **Workers & Pages → Create → Import a repository**, and each claiming its part of
+The three sites are separate Workers serving static assets. Each claims its part of
 sparshlabs.com with a route in its `wrangler.jsonc`. Cloudflare picks the most specific route,
 so `/sparsh*` and `/ownci*` go to the project Workers and everything else comes here.
 
-For this repo:
+Deploys are manual: merging a PR does not deploy anything. After merging, build each site that
+changed from the merged commit and deploy it with wrangler (`npx wrangler whoami` shows the
+account you're logged in to):
 
-| Setting | Value |
-| --- | --- |
-| Root directory | `/` |
-| Build command | `npm ci && npm run build` |
-| Deploy command | `npx wrangler deploy` |
+| Site | Directory | Build | Deploy |
+| --- | --- | --- | --- |
+| Home + author (`sparshlabs`) | repo root | `npm ci && npm run build` | `npx wrangler deploy` |
+| sparsh | `projects/sparsh` | `pnpm install --frozen-lockfile && pnpm run build:website` | `npx wrangler deploy` in `apps/website` |
+| OwnCI | `projects/ownci/website` | `npm ci && npm run build` | `npx wrangler deploy` |
 
-The home page build doesn't use `projects/`; the submodules exist for local design work, and
-each project still deploys from its own repository.
+Check the submodule is on the merged commit (`git -C projects/<name> log -1`) before building it.
+The home page build doesn't use `projects/`. The submodules let you build and deploy the
+project sites from here, but each project site can also be deployed from its own clone.
 
 One-time setup for the domain (zone `sparshlabs.com` on Cloudflare):
 
 1. **DNS**: the routes only see traffic for proxied hostnames. If the apex has no record yet,
    add `AAAA @ 100::` (proxied, orange cloud), and the same for `www`.
 2. **www**: add a Redirect Rule `www.sparshlabs.com/*` → `https://sparshlabs.com/${1}` (301).
-3. Deploy this Worker first, then merge the sparsh and ownci branches that add their routes.
-   `wrangler deploy` creates the routes from `wrangler.jsonc`; the API token used by Workers
-   Builds needs *Workers Routes: Edit* on the zone.
+3. Deploy this Worker first, then the sparsh and ownci Workers. `wrangler deploy` creates the
+   routes from `wrangler.jsonc`; the account you're logged in to needs *Workers Routes: Edit*
+   on the zone.
 4. **author.sparshlabs.com**: the bio is `dist/author/index.html` from this repo, served by the
    same Worker (route `author.sparshlabs.com/*` in `wrangler.jsonc`). Three dashboard settings:
    - DNS: `AAAA author 100::` (proxied).
