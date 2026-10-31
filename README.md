@@ -35,7 +35,8 @@ Node ≥ 22 (see `.nvmrc`). Dependencies are pinned to exact versions.
 | `src/pages/author.astro` | The author bio, served at author.sparshlabs.com |
 | `src/layouts/BaseLayout.astro` | Header, footer, font imports |
 | `src/styles/site.css` | Home-page-only styles (project cards, marks) |
-| `_headers` | Security headers (strict CSP, no scripts), copied into `dist/` by `npm run build` |
+| `src/components/Code.astro` | Code block with a copy button (the home page's only script), same as OwnCI's |
+| `_headers` | Security headers (strict CSP, scripts only from 'self'), copied into `dist/` by `npm run build` |
 | `scripts/setup.sh` | Checks out the submodules and installs every site's dependencies |
 | `scripts/sync-theme.sh` | Copies the theme into each project; `--check` fails if a copy is stale |
 | `scripts/preview-all.sh` | Builds the three sites and serves them merged, like production |

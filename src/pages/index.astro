@@ -1,4 +1,5 @@
 ---
+import Code from '../components/Code.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { projects } from '../data/projects'
 
@@ -58,10 +59,9 @@ const principles = [
             <p class="project-limits">
               <a class="inline" href={project.limits.href} rel="noreferrer">{project.limits.label} <span aria-hidden="true">→</span></a>
             </p>
-            <figure class="code-block project-install">
-              <figcaption>Install</figcaption>
-              <pre><code>{project.install}</code></pre>
-            </figure>
+            <div class="project-install">
+              <Code label="Install" code={project.install} copyLabel={`Copy the ${project.name} install command`} />
+            </div>
             <div class="project-links">
               <a class="button-primary" href={project.site}>Visit {project.name} <span aria-hidden="true">→</span></a>
               <a class="button-secondary" href={project.repo} rel="noreferrer">Source on GitHub</a>
