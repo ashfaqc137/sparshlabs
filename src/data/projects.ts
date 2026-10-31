@@ -26,7 +26,7 @@ export const projects: Project[] = [
       'Stops a tap from activating the wrong thing when the interface changes under the finger: a new message slides in, a row shifts, a button changes meaning mid-press.',
     points: [
       'Checks age, continuity, semantics and double fire on every activation',
-      'React, Vue and plain DOM bindings on npm as @sparshlabs/*',
+      'React, Vue, Angular, Solid, Svelte and plain DOM bindings on npm as @sparshlabs/*',
       'Enforce or report mode, with a reason for every block',
     ],
     status: 'v0.1 · npm',
@@ -50,7 +50,7 @@ export const projects: Project[] = [
       'Every job runs inside a Docker container, wiped after each run',
       'One install script for Linux and WSL2, amd64 and arm64',
     ],
-    status: 'v0.1.0 · MVP',
+    status: 'v0.2.0 · MVP',
     install: 'curl -fsSL https://sparshlabs.com/ownci/install.sh | sh',
     limits: { label: 'What it doesn’t protect against', href: '/ownci/security/' },
     license: 'MIT',
